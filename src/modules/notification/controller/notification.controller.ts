@@ -3,11 +3,13 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
   NotFoundException,
   Param,
   Patch,
   Post,
   Query,
+  forwardRef,
 } from '@nestjs/common';
 
 import { CreateNotificationInput } from '../model/create-notification.input';
@@ -16,7 +18,10 @@ import { NotificationService } from '../service/notification.service';
 
 @Controller('notification')
 export class NotificationController {
-  constructor(private readonly notificationService: NotificationService) {}
+  constructor(
+    @Inject(forwardRef(() => NotificationService))
+    private readonly notificationService: NotificationService,
+  ) {}
 
   @Post()
   create(@Body() body: CreateNotificationInput) {
