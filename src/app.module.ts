@@ -5,7 +5,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 
-import { NotificationModule } from './modules/notification/notification.module';
+import * as modules from './modules';
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { NotificationModule } from './modules/notification/notification.module';
         suffix: '-table',
       },
     }),
-    NotificationModule,
+    ...Object.values(modules),
   ],
 })
 export class AppModule {}

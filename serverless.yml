@@ -47,6 +47,7 @@ custom:
 package:
   individually: true
 
+
 functions:
   index-function:
     handler: src/index.handler
@@ -55,6 +56,25 @@ functions:
           cors: true
           path: '{proxy+}'
           method: any
+
+  index-socket:
+    handler: src/index.handlerSocket
+    events:
+      - websocket:
+          route: $default
+
+  connect:
+    handler: src/index.connect
+    events:
+      - websocket:
+          route: $connect
+          authorizer:
+            name: auth
+            identitySource:
+              - 'route.request.header.Auth'
+
+  auth:
+    handler: src/index.auth
 
 resources:
   - ${file(resource/dynamodb.yml)}
