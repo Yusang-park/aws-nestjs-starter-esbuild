@@ -1,0 +1,14 @@
+diff --git a/node_modules/@nestjs/graphql/dist/utils/reflection.utilts.js b/node_modules/@nestjs/graphql/dist/utils/reflection.utilts.js
+index 5913250..ab2ce39 100644
+--- a/node_modules/@nestjs/graphql/dist/utils/reflection.utilts.js
++++ b/node_modules/@nestjs/graphql/dist/utils/reflection.utilts.js
+@@ -39,6 +39,9 @@ function reflectTypeFromMetadata(reflectOptions) {
+ }
+ function extractTypeIfArray(metadataKey, reflectedType, index) {
+     if (metadataKey === 'design:paramtypes') {
++        if (!reflectedType) {
++            return undefined;
++        }
+         return reflectedType[index];
+     }
+     return reflectedType;

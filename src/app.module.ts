@@ -14,6 +14,7 @@ import { NotificationModule } from './modules/notification/notification.module';
       driver: ApolloDriver,
       autoSchemaFile: true,
       playground: true,
+      debug: true,
     }),
     DynamooseModule.forRoot({
       local: process.env.IS_DDB_LOCAL === 'true',

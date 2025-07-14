@@ -1,3 +1,4 @@
+import { Inject, forwardRef } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { CreateNotificationInput } from '../model/create-notification.input';
@@ -7,17 +8,24 @@ import { NotificationService } from '../service/notification.service';
 
 @Resolver(() => Notification)
 export class NotificationResolver {
-  constructor(private readonly notificationService: NotificationService) {}
+  constructor(
+    @Inject(forwardRef(() => NotificationService))
+    private readonly notificationService: NotificationService,
+  ) {}
 
   @Mutation(/* istanbul ignore next */ () => Notification)
-  createNotification(@Args('input') input: CreateNotificationInput) {
+  createNotification(
+    @Args('input', { type: () => CreateNotificationInput })
+    input: CreateNotificationInput,
+  ) {
     return this.notificationService.create(input);
   }
 
   @Mutation(/* istanbul ignore next */ () => Notification)
   updateNotification(
     @Args('id', { type: /* istanbul ignore next */ () => ID }) id: string,
-    @Args('input') input: UpdateNotificationInput,
+    @Args('input', { type: () => UpdateNotificationInput })
+    input: UpdateNotificationInput,
   ) {
     return this.notificationService.update({ id }, input);
   }
@@ -37,12 +45,14 @@ export class NotificationResolver {
   }
 
   @Query(/* istanbul ignore next */ () => [Notification])
-  notificationByUserId(@Args('userId') userId: string) {
+  notificationByUserId(@Args('userId', { type: () => String }) userId: string) {
     return this.notificationService.findByUserId(userId);
   }
 
   @Query(/* istanbul ignore next */ () => [Notification])
-  notificationByTargetId(@Args('targetId') targetId: string) {
+  notificationByTargetId(
+    @Args('targetId', { type: () => String }) targetId: string,
+  ) {
     return this.notificationService.findByTargetId(targetId);
   }
 }

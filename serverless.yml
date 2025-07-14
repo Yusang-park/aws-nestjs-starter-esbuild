@@ -28,11 +28,13 @@ provider:
           Resource: arn:aws:dynamodb:${self:provider.region}:*:*
 
 plugins:
-  - serverless-plugin-typescript
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-dotenv-plugin
 
 custom:
+  dotenv:
+    path: .env.${opt:stage, 'dev'}
   dynamodb:
     stages:
       - ${self:provider.stage}
@@ -56,3 +58,9 @@ functions:
 
 resources:
   - ${file(resource/dynamodb.yml)}
+
+build:
+  esbuild:
+    keepNames: true
+    external:
+      - 'class-transformer/storage'

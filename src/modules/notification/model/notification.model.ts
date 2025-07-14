@@ -1,20 +1,28 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
-import { CreateNotificationInput } from './create-notification.input';
 import { NotificationStatus } from './notification.enum';
 
 export type NotificationKey = {
   id: string;
 };
 
-@ObjectType({ implements: CreateNotificationInput })
-export class Notification extends CreateNotificationInput {
-  @Field(/* istanbul ignore next */ () => ID)
+@ObjectType()
+export class Notification {
+  @Field(() => ID)
   id: string;
 
-  @Field(/* istanbul ignore next */ () => NotificationStatus)
+  @Field(() => String)
+  targetId: string;
+
+  @Field(() => String)
+  userId: string;
+
+  @Field(() => String)
+  content: string;
+
+  @Field(() => NotificationStatus)
   status: NotificationStatus;
 
-  @Field()
+  @Field(() => String)
   createAt: string;
 }

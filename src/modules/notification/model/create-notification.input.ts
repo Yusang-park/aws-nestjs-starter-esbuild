@@ -1,22 +1,21 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-import { Field, InputType, InterfaceType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-@InterfaceType('BaseNotification')
 export class CreateNotificationInput {
   @IsNotEmpty()
   @IsString()
-  @Field()
+  @Field(() => String)
   targetId: string;
 
   @IsNotEmpty()
   @IsString()
-  @Field()
+  @Field(() => String)
   userId: string;
 
   @IsNotEmpty()
   @IsString()
-  @Field()
+  @Field(() => String)
   content: string;
 }
